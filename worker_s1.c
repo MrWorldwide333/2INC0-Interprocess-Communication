@@ -24,6 +24,9 @@
 #include "messages.h"
 #include "service1.h"
 
+static char                 mq_name1_worker_s1[80];
+static char                 mq_name2_worker_s1[80];
+
 static void rsleep (int t);
 
 
@@ -41,6 +44,27 @@ int main (int argc, char * argv[])
     //    until there are no more tasks to do
     //  * close the message queues
     
+    
+    mqd_t               S1_queue;
+    mqd_t               Rsp_queue;
+    MQ_REQUEST_MESSAGE  req;
+    MQ_RESPONSE_MESSAGE rsp;
+
+    S1_queue = mq_open (mq_name1_worker_s1, O_RDONLY);
+    Rsp_queue = mq_open (mq_name2_worker_s1, O_WRONLY);
+
+    // TODO:
+    //  * repeatingly:
+    //      - read from the SX message queue the new job to do
+    //      - wait a random amount of time (e.g. rsleep(10000);)
+    //      - do the job 
+    //      - write the results to the Rep message queue
+    //    until there are no more tasks to do
+
+
+    mq_close (S1_queue);
+    mq_close (Rsp_queue);
+
     return (0);
 }
 

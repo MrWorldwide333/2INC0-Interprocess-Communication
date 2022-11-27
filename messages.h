@@ -11,5 +11,15 @@
 
 // define the data structures for your messages here
 
+typedef struct
+{
+    int a;
+}MQ_REQUEST_MESSAGE;
+
+typedef struct
+{
+    int x;
+}MQ_RESPONSE_MESSAGE;
+
 #endif
 

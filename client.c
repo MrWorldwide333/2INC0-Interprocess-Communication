@@ -24,6 +24,8 @@
 #include "messages.h"
 #include "request.h"
 
+static char                 mq_client[80];
+
 static void rsleep (int t);
 
 
@@ -32,13 +34,27 @@ int main (int argc, char * argv[])
     // TODO:
     // (see message_queue_test() in interprocess_basic.c)
     //  * open the message queue (whose name is provided in the
-    //    arguments)
-
+    //    arguments)    
     //  * repeatingly:
     //      - get the next job request 
     //      - send the request to the Req message queue
     //    until there are no more requests to send
     //  * close the message queue
+
+
+    mqd_t               Req_queue;
+    MQ_REQUEST_MESSAGE  req;
+
+    Req_queue= mq_open (mq_client, O_RDONLY);
+
+    // TODO:
+    //  * repeatingly:
+    //      - get the next job request 
+    //      - send the request to the Req message queue
+    //    until there are no more requests to send
+
+
+    mq_close (Req_queue);
     
     return (0);
 }
