@@ -13,7 +13,9 @@
 
 typedef struct
 {
-    int a;
+    int jobID;
+    int data;
+    int serviceID;
 }MQ_REQUEST_MESSAGE;
 
 typedef struct

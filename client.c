@@ -24,6 +24,10 @@
 #include "messages.h"
 #include "request.h"
 
+#include "request.c"
+
+#define GROUP_NR "group 53"
+
 static char                 mq_client[80];
 
 static void rsleep (int t);
@@ -31,6 +35,7 @@ static void rsleep (int t);
 
 int main (int argc, char * argv[])
 {
+
     // TODO:
     // (see message_queue_test() in interprocess_basic.c)
     //  * open the message queue (whose name is provided in the
@@ -45,15 +50,25 @@ int main (int argc, char * argv[])
     mqd_t               Req_queue;
     MQ_REQUEST_MESSAGE  req;
 
+    sprintf(mq_client, "/Req_queue_%s_%d", GROUP_NR, getpid());
+
     Req_queue= mq_open (mq_client, O_RDONLY);
 
-    // TODO:
-    //  * repeatingly:
-    //      - get the next job request 
-    //      - send the request to the Req message queue
-    //    until there are no more requests to send
+    
+    int jobID;
+    int data;
+    int serviceID;
 
+    while (getNextRequest(&jobID, &data, &serviceID) != NO_REQ)
+    {
+        req.jobID = jobID;
+        req.data = data;
+        req.serviceID = serviceID;
 
+        printf("client sending job with ID %d...\n" , req.jobID);
+        mq_send (Req_queue, (char *) &req, sizeof (req), 0);
+    }
+    
     mq_close (Req_queue);
     
     return (0);
