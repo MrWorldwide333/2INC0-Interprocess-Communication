@@ -3,7 +3,7 @@
  * Interprocess Communication
  *
  * Alexandru Rosca (1453890)
- * STUDENT_NAME_2 (STUDENT_NR_2)
+ * Dragos Galeteanu (1542672)
  *
  * Grading:
  * Your work will be evaluated based on the following criteria:
@@ -49,6 +49,17 @@ int main (int argc, char * argv[])
 
     // Important notice: make sure that the names of the message queues
     // contain your goup number (to ensure uniqueness during testing)
-    
+
+    mqd_t               mq_fd_request53;
+    mqd_t               mq_fd_response53;
+    MQ_REQUEST_MESSAGE  req;
+    MQ_RESPONSE_MESSAGE rsp;
+
+    pid_t           processID;
+    printf ("parent pid:%d\n", getpid());
+    processID = fork();
+
+    mq_fd_request53 = mq_open ()
+
     return (0);
 }
