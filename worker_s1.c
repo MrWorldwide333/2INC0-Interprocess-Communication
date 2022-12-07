@@ -25,8 +25,8 @@
 #include "messages.h"
 #include "service1.h"
 
-static char                 mq_name1_worker_s1[80];
-static char                 mq_name2_worker_s1[80];
+static char                 mq_name1_worker_s2[80];
+static char                 mq_name2_worker_s2[80];
 
 
 
@@ -45,16 +45,17 @@ int main (int argc, char * argv[])
     //  * close the message queues
     
     
-    mqd_t               S1_queue;
+    mqd_t               S2_queue;
     mqd_t               Rsp_queue;
     MQ_REQUEST_MESSAGE  req;
     MQ_RESPONSE_MESSAGE rsp;
 
-    S1_queue = mq_open (mq_name1_worker_s1, O_RDONLY);
+    S2_queue = mq_open (mq_name1_worker_s2, O_RDONLY);
     Rsp_queue = mq_open (mq_fd_response53, O_WRONLY);
 
     
-    while (S1_queue != NO_REQ)
+    
+    while (S2_queue != NO_REQ)
     {
     int	i;
     // command-line arguments are available in argv[0] .. argv[argc-1]
@@ -73,13 +74,14 @@ int main (int argc, char * argv[])
 
     
     process_test();
-    rsleep(10000); 
+    //performes rsleep(10000) as asked for in the requirements 
+    rsleep(10000);
 
     char buffer[MAX_SIZE + 1];
-    //reades the message intednded for worker 1
-    int bytes_read = mq_receive(S1_queue, buffer, MAX_SIZE, NULL);
-    //performs service1 on the given data
-    rsp = service1(bytes_read);
+    //reades the message intednded for worker 2
+    int bytes_read = mq_receive(S2_queue, buffer, MAX_SIZE, NULL);
+    //performs service2 on the given data
+    rsp = service2(bytes_read);
     char buffer[MAX_SIZE];
     //sends the response back on the response queue
     mq_send(Rsp_queue, buffer, MAX_SIZE, 0);
