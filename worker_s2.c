@@ -203,7 +203,7 @@ int main (int argc, char * argv[])
     //reades the message intednded for worker 2
     int bytes_read = mq_receive(S2_queue, buffer, MAX_SIZE, NULL);
     //performs service2 on the given data
-    rsp = service2(bytes_read);
+    rsp = service2(bytes_read.data);
     char buffer[MAX_SIZE];
     //sends the response back on the response queue
     mq_send(Rsp_queue, buffer, MAX_SIZE, 0);
