@@ -23,7 +23,7 @@
 #include <time.h>       // for time()
 
 #include "messages.h"
-#include "service1.h"
+#include "service2.h"
 
 static char                 mq_name1_worker_s2[80];
 static char                 mq_name2_worker_s2[80];
