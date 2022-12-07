@@ -3,8 +3,8 @@
  * Interprocess Communication
  *
  * Alexandru Rosca (1453890)
- * STUDENT_NAME_2 (STUDENT_NR_2)
- *
+ * Dragos Galeteanu (1542672)
+ * Matei Mihu (1561391)
  * Grading:
  * Your work will be evaluated based on the following criteria:
  * - Satisfaction of all the specifications
