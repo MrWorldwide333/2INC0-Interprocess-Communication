@@ -172,15 +172,12 @@ int main (int argc, char * argv[])
     MQ_RESPONSE_MESSAGE rsp;
 
     S1_queue = mq_open (mq_name1_worker_s1, O_RDONLY);
-    Rsp_queue = mq_open (mq_name2_worker_s1, O_WRONLY);
+    Rsp_queue = mq_open (mq_fd_response53, O_WRONLY);
 
-    
-    // else: parse the arguments...
     
     while (S1_queue != NO_REQ)
     {
-        int	i;
-
+    int	i;
     // command-line arguments are available in argv[0] .. argv[argc-1]
     // argv[0] always contains the name of the program
     
@@ -194,27 +191,21 @@ int main (int argc, char * argv[])
         }
         exit (1);
     }
+
+    
     process_test();
-    rsleep(1000);
+    rsleep(10000);
     message_queue_test(S1_queue, Rsp_queue);
 
+    char buffer[MAX_SIZE + 1];
+    //reades the message intednded for worker 2
+    int bytes_read = mq_receive(S1_queue, buffer, MAX_SIZE, NULL);
+    //performs service2 on the given data
+    rsp = service1(bytes_read);
+    char buffer[MAX_SIZE];
+    //sends the response back on the response queue
+    mq_send(Rsp_queue, buffer, MAX_SIZE, 0);
     }
-
-    
-
-    // TODO:
-    //  * repeatingly:
-    //      - read from the SX message queue the new job to do
-    //      - wait a random amount of time (e.g. rsleep(10000);)
-    //      - do the job 
-    //      - write the results to the Rep message queue
-    //    until there are no more tasks to do
-
-
-    
-
-    mq_close (S1_queue);
-    mq_close (Rsp_queue);
 
     return (0);
 }
